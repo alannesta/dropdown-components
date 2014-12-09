@@ -1,10 +1,10 @@
 <!-- <h4>It works!</h4> -->
 <acq-dropdown-list ng-model="selection.selected">
 	<acq-dropdown-selected>
-		<span ng-bind="$select.selected.publisher"></span>		<!-- automatically transcuded, can get the $select scope from acq-dropdown-list -->
+		<span ng-bind="$select.selected.publisher"></span>
 		<span ng-bind="$select.selected.rollover"></span>
 	</acq-dropdown-selected>
-	<acq-dropdown-items repeat = "user in users">
+	<acq-dropdown-items>
 		<span ng-bind="user.publisher"></span>
 		<span ng-bind="user.rollover"></span>
 	</acq-dropdown-items>

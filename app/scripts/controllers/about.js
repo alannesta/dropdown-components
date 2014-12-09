@@ -15,15 +15,15 @@ angular.module('angularTestApp').controller('aboutCtrl', ['$interval','$scope',f
 
     $scope.test = 'yeehaw';
 
-    // $scope.$watch('selection.selected', function(newVal){
-    // 	console.log('value changed');
-    // 	console.log(newVal);
-    // });
-
-    $scope.$watch('test', function(newVal){
-      console.log('value changed');
-      console.log(newVal);
+    $scope.$watch('selection.selected', function(newVal){
+    	console.log('value changed');
+    	console.log(newVal);
     });
+
+    // $scope.$watch('test', function(newVal){
+    //   console.log('value changed');
+    //   console.log(newVal);
+    // });
 
     // $scope.$watch('users', function(newVal){
     //   console.log('value changed');

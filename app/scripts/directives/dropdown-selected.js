@@ -18,9 +18,7 @@
       transclude: true,
       templateUrl: './scripts/directives/dropdown-selected.html',
       link: function(scope, element, attrs, $select) {
-        //console.log('$select in MATCH: ');
-        //console.log($select);
-        $select.lockChoiceExpression = attrs.uiLockChoice;
+
         // attrs.$observe('placeholder', function(placeholder) {
         //   $select.placeholder = placeholder !== undefined ? placeholder : uiSelectConfig.placeholder;
         // });
