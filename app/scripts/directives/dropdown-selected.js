@@ -18,9 +18,6 @@
       transclude: true,
       templateUrl: './scripts/directives/dropdown-selected.html',
       link: function(scope, element, attrs, $select) {
-        $select.lockChoiceExpression = attrs.uiLockChoice;
-        
-        $select.allowClear = (angular.isDefined(attrs.allowClear)) ? (attrs.allowClear === '') ? true : (attrs.allowClear.toLowerCase() === 'true') : false;
 
       }
     };

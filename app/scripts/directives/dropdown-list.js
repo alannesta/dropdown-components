@@ -79,6 +79,26 @@
         };
 
         
+        // handle ESC, ENTER key
+        element.on('keydown', function(e) {
+          console.log('keydown');
+          var key = e.which;
+
+          scope.$apply(function() {
+            var processed = false;
+            if (!processed && $select.items.length > 0) {
+              processed = $select.handleDropDownSelection(key);
+            }
+            // if (processed  && key != KEY.TAB) {
+            //   //TODO Check si el tab selecciona aun correctamente
+            //   //Crear test
+            //   e.preventDefault();
+            //   e.stopPropagation();
+            // }
+          });
+        });
+
+
         function onDocumentClick(e) {
           var contains = false;
 
@@ -90,15 +110,6 @@
           }
           $select.clickTriggeredSelect = false;
         }
-
-        // element.on('keyup', function(e){
-        //   console.log('keyup');
-        //   if (e.which === KEY.ESC) {
-        //     $select.close();
-        //     scope.$digest();
-        //     return;
-        //   }
-        // });
 
         // See Click everywhere but here event http://stackoverflow.com/questions/12931369
         $document.on('click', onDocumentClick);

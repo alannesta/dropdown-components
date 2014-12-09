@@ -26,8 +26,9 @@
     var ctrl = this;
     
     ctrl.items = [];
-    ctrl.placeholder = 'lai yi fa';
+    ctrl.placeholder = 'Select';
     ctrl.selected = undefined;
+    ctrl.activeIndex = 0;   // index of currently selected model
 
     ctrl.searchEnabled = false;
     ctrl.multiple = false;
@@ -132,20 +133,11 @@
 
     // When the user selects an item with ENTER or clicks the dropdown
     ctrl.select = function (item, $event) {
-      // debugger;
       var locals = {};
       locals[ctrl.parserResult.itemName] = item;
-
-      //ctrl.onSelectCallback($scope, {
-      //  $item: item,
-      //  $model: ctrl.parserResult.modelMapper($scope, locals)
-      //});
-
       ctrl.selected = item;
-
-      if (!ctrl.multiple || ctrl.closeOnSelect) {
-        ctrl.close();
-      }
+      ctrl.close();
+      
       if ($event && $event.type === 'click') {
         ctrl.clickTriggeredSelect = true;
       }
@@ -154,14 +146,7 @@
     // Closes the dropdown
     ctrl.close = function (skipFocusser) {
       if (!ctrl.open) return;
-      // _resetSearchInput();
       ctrl.open = false;
-      // if (!ctrl.multiple) {
-      //   $timeout(function () {
-      //     ctrl.focusser.prop('disabled', false);
-      //     if (!skipFocusser) ctrl.focusser[0].focus();
-      //   }, 0, false);
-      // }
     };
 
     // Toggle dropdown
@@ -171,7 +156,8 @@
       e.stopPropagation();
     };
 
-    function _handleDropDownSelection(key) {
+    // used in dropdown-select link function
+    ctrl.handleDropDownSelection = function(key){
       var processed = true;
       switch (key) {
         case KEY.DOWN:
@@ -188,6 +174,7 @@
         case KEY.ENTER:
           if(ctrl.open){
             ctrl.select(ctrl.items[ctrl.activeIndex]);
+            ctrl.close();
           } else {
             ctrl.activate(false, true); //In case its the search input in 'multiple' mode
           }
@@ -201,29 +188,59 @@
       return processed;
     }
 
-    _searchInput.on('keydown', function(e) {
-      console.log('keydown');
-      var key = e.which;
+    // function _handleDropDownSelection(key) {
+    //   var processed = true;
+    //   switch (key) {
+    //     case KEY.DOWN:
+    //       if (!ctrl.open && ctrl.multiple) ctrl.activate(false, true); //In case its the search input in 'multiple' mode
+    //       else if (ctrl.activeIndex < ctrl.items.length - 1) { ctrl.activeIndex++; }
+    //       break;
+    //     case KEY.UP:
+    //       if (!ctrl.open && ctrl.multiple) ctrl.activate(false, true); //In case its the search input in 'multiple' mode
+    //       else if (ctrl.activeIndex > 0 || (ctrl.search.length === 0 && ctrl.tagging.isActivated)) { ctrl.activeIndex--; }
+    //       break;
+    //     case KEY.TAB:
+    //       if (!ctrl.multiple || ctrl.open) ctrl.select(ctrl.items[ctrl.activeIndex], true);
+    //       break;
+    //     case KEY.ENTER:
+    //       if(ctrl.open){
+    //         ctrl.select(ctrl.items[ctrl.activeIndex]);
+    //       } else {
+    //         ctrl.activate(false, true); //In case its the search input in 'multiple' mode
+    //       }
+    //       break;
+    //     case KEY.ESC:
+    //       ctrl.close();
+    //       break;
+    //     default:
+    //       processed = false;
+    //   }
+    //   return processed;
+    // }
 
-      $scope.$apply(function() {
-        var processed = false;
+    // _searchInput.on('keydown', function(e) {
+    //   console.log('keydown');
+    //   var key = e.which;
 
-        if (!processed && ctrl.items.length > 0) {
-          processed = _handleDropDownSelection(key);
-        }
+    //   $scope.$apply(function() {
+    //     var processed = false;
 
-        if (processed  && key != KEY.TAB) {
-          //TODO Check si el tab selecciona aun correctamente
-          //Crear test
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      });
+    //     if (!processed && ctrl.items.length > 0) {
+    //       processed = _handleDropDownSelection(key);
+    //     }
 
-      // if(KEY.isVerticalMovement(key) && ctrl.items.length > 0){
-      //   _ensureHighlightVisible();
-      // }
-    });
+    //     if (processed  && key != KEY.TAB) {
+    //       //TODO Check si el tab selecciona aun correctamente
+    //       //Crear test
+    //       e.preventDefault();
+    //       e.stopPropagation();
+    //     }
+    //   });
+
+    //   // if(KEY.isVerticalMovement(key) && ctrl.items.length > 0){
+    //   //   _ensureHighlightVisible();
+    //   // }
+    // });
 
 
   });
