@@ -1,8 +1,30 @@
 (function (module) {
   'use strict';
+
+  var KEY = {
+    TAB: 9,
+    ENTER: 13,
+    ESC: 27,
+    SPACE: 32,
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40,
+    SHIFT: 16,
+    CTRL: 17,
+    ALT: 18,
+    PAGE_UP: 33,
+    PAGE_DOWN: 34,
+    HOME: 36,
+    END: 35,
+    BACKSPACE: 8,
+    DELETE: 46,
+    COMMAND: 91
+  };
+
   module.controller('dropdownListCtrl', function ($scope, $element, $timeout, $filter, RepeatParser) {
     var ctrl = this;
-
+    
     ctrl.items = [];
     ctrl.placeholder = 'lai yi fa';
     ctrl.selected = undefined;
@@ -12,6 +34,8 @@
     ctrl.open = false;
     ctrl.disabled = undefined; // Initialized inside uiSelect directive link function
 
+    var _searchInput = $element.querySelectorAll('input.ui-select-search');
+
     ctrl.isEmpty = function () {
       return angular.isUndefined(ctrl.selected) || ctrl.selected === null || ctrl.selected === '';
     };
@@ -20,6 +44,9 @@
       if (!ctrl.disabled && !ctrl.open) {
         ctrl.open = true;
       }
+      $timeout(function() {
+        _searchInput[0].focus();
+      });
     };
 
     ctrl.parseRepeatAttr = function (repeatAttr, groupByExp) {
@@ -143,5 +170,61 @@
       e.preventDefault();
       e.stopPropagation();
     };
+
+    function _handleDropDownSelection(key) {
+      var processed = true;
+      switch (key) {
+        case KEY.DOWN:
+          if (!ctrl.open && ctrl.multiple) ctrl.activate(false, true); //In case its the search input in 'multiple' mode
+          else if (ctrl.activeIndex < ctrl.items.length - 1) { ctrl.activeIndex++; }
+          break;
+        case KEY.UP:
+          if (!ctrl.open && ctrl.multiple) ctrl.activate(false, true); //In case its the search input in 'multiple' mode
+          else if (ctrl.activeIndex > 0 || (ctrl.search.length === 0 && ctrl.tagging.isActivated)) { ctrl.activeIndex--; }
+          break;
+        case KEY.TAB:
+          if (!ctrl.multiple || ctrl.open) ctrl.select(ctrl.items[ctrl.activeIndex], true);
+          break;
+        case KEY.ENTER:
+          if(ctrl.open){
+            ctrl.select(ctrl.items[ctrl.activeIndex]);
+          } else {
+            ctrl.activate(false, true); //In case its the search input in 'multiple' mode
+          }
+          break;
+        case KEY.ESC:
+          ctrl.close();
+          break;
+        default:
+          processed = false;
+      }
+      return processed;
+    }
+
+    _searchInput.on('keydown', function(e) {
+      console.log('keydown');
+      var key = e.which;
+
+      $scope.$apply(function() {
+        var processed = false;
+
+        if (!processed && ctrl.items.length > 0) {
+          processed = _handleDropDownSelection(key);
+        }
+
+        if (processed  && key != KEY.TAB) {
+          //TODO Check si el tab selecciona aun correctamente
+          //Crear test
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      });
+
+      // if(KEY.isVerticalMovement(key) && ctrl.items.length > 0){
+      //   _ensureHighlightVisible();
+      // }
+    });
+
+
   });
 })(angular.module('angularTestApp'));

@@ -25,8 +25,6 @@
         /*prototypical inheritance*/
         // scope.users[0] = {budgetshare: 1233.86,publisher: 'Alan', rollover: 831201, adjustment: 434, ebudget: 34234};
         // scope.users = [];   // shaded, prototypical inheritance
-
-
         var $select = ctrls[0];
         var ngModel = ctrls[1];
         var searchInput = element.querySelectorAll('input.ui-select-search');
@@ -80,6 +78,34 @@
           $select.selected = ngModel.$viewValue;
         };
 
+        
+        function onDocumentClick(e) {
+          var contains = false;
+
+          contains = element[0].contains(e.target);
+
+          if (!contains && !$select.clickTriggeredSelect) {
+            $select.close();
+            scope.$digest();
+          }
+          $select.clickTriggeredSelect = false;
+        }
+
+        // element.on('keyup', function(e){
+        //   console.log('keyup');
+        //   if (e.which === KEY.ESC) {
+        //     $select.close();
+        //     scope.$digest();
+        //     return;
+        //   }
+        // });
+
+        // See Click everywhere but here event http://stackoverflow.com/questions/12931369
+        $document.on('click', onDocumentClick);
+
+        scope.$on('$destroy', function() {
+          $document.off('click', onDocumentClick);
+        });
 
         transcludeFn(scope, function(clone) {
           // See Transclude in AngularJS http://blog.omkarpatil.com/2012/11/transclude-in-angularjs.html
