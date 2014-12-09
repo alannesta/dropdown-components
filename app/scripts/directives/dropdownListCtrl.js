@@ -29,7 +29,7 @@
     ctrl.placeholder = 'lai yi fa';
     ctrl.selected = undefined;
 
-    ctrl.searchEnabled = true;
+    ctrl.searchEnabled = false;
     ctrl.multiple = false;
     ctrl.open = false;
     ctrl.disabled = undefined; // Initialized inside uiSelect directive link function
