@@ -30,9 +30,9 @@
 
           $select.parseRepeatAttr(attrs.repeat, groupByExp); //Result ready at $select.parserResult
 
-          var choices = element.querySelectorAll('.ui-select-choices-row');
+          var choices = element.querySelectorAll('.acq-dropdown-item-row');
           //if (choices.length !== 1) {
-          //  throw uiSelectMinErr('rows', "Expected 1 .ui-select-choices-row but got '{0}'.", choices.length);
+          //  throw uiSelectMinErr('rows', "Expected 1 .acq-dropdown-item-row but got '{0}'.", choices.length);
           //}
 
           choices.attr('ng-repeat', RepeatParser.getNgRepeatExpression($select.parserResult.itemName, '$select.items', $select.parserResult.trackByExp, groupByExp))
@@ -40,8 +40,8 @@
             .attr('ng-mouseenter', '$select.setActiveItem('+$select.parserResult.itemName +')')
             .attr('ng-click', '$select.select(' + $select.parserResult.itemName + ',false,$event)');
 
-          var rowsInner = element.querySelectorAll('.ui-select-choices-row-inner');
-          //if (rowsInner.length !== 1) throw uiSelectMinErr('rows', "Expected 1 .ui-select-choices-row-inner but got '{0}'.", rowsInner.length);
+          var rowsInner = element.querySelectorAll('.acq-dropdown-item-row-inner');
+          //if (rowsInner.length !== 1) throw uiSelectMinErr('rows', "Expected 1 .acq-dropdown-item-row-inner but got '{0}'.", rowsInner.length);
           rowsInner.attr('uis-transclude-append', ''); //Adding uisTranscludeAppend directive to row element after choices element has ngRepeat
 
           $compile(element, transcludeFn)(scope); //Passing current transcludeFn to be able to append elements correctly from uisTranscludeAppend

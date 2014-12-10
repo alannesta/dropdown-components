@@ -43,9 +43,6 @@
       if (!ctrl.disabled && !ctrl.open) {
         ctrl.open = true;
       }
-      $timeout(function() {
-        _searchInput[0].focus();
-      });
     };
 
     ctrl.parseRepeatAttr = function (repeatAttr, groupByExp) {

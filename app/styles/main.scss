@@ -105,26 +105,26 @@ body {
 
 /* Fix Bootstrap dropdown position when inside a input-group */
 
-.ui-select-bootstrap > .ui-select-match {
+.acq-dropdown-list > .acq-dropdown-selected {
   /* Instead of center because of .btn */
   text-align: left;
 }
 
-.ui-select-bootstrap > .ui-select-match > .caret {
+.acq-dropdown-list > .acq-dropdown-selected > .caret {
   position: absolute;
   top: 45%;
   right: 15px;
 }
 
 /* See Scrollable Menu with Bootstrap 3 http://stackoverflow.com/questions/19227496 */
-.ui-select-bootstrap > .ui-select-choices {
+.acq-dropdown-list > .acq-dropdown-item {
   width: 100%;
   height: auto;
   max-height: 200px;
   overflow-x: hidden;
 }
 
-.ui-select-bootstrap .ui-select-choices-row>a {
+.acq-dropdown-list .acq-dropdown-item-row>a {
     display: block;
     padding: 3px 20px;
     clear: both;
@@ -134,14 +134,14 @@ body {
     white-space: nowrap;
 }
 
-.ui-select-bootstrap .ui-select-choices-row>a:hover, .ui-select-bootstrap .ui-select-choices-row>a:focus {
+.acq-dropdown-list .acq-dropdown-item-row>a:hover, .acq-dropdown-list .acq-dropdown-item-row>a:focus {
     text-decoration: none;
     color: #262626;
     background-color: #f5f5f5;
 }
 
 /*styling of the active(selected element) */
-.ui-select-bootstrap .ui-select-choices-row.active>a {
+.acq-dropdown-list .acq-dropdown-item-row.active>a {
     color: #fff;
     text-decoration: none;
     outline: 0;
