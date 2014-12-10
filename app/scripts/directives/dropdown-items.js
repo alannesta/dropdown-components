@@ -42,15 +42,19 @@
 
           var rowsInner = element.querySelectorAll('.acq-dropdown-item-row-inner');
           //if (rowsInner.length !== 1) throw uiSelectMinErr('rows', "Expected 1 .acq-dropdown-item-row-inner but got '{0}'.", rowsInner.length);
-          rowsInner.attr('uis-transclude-append', ''); //Adding uisTranscludeAppend directive to row element after choices element has ngRepeat
+          // rowsInner.attr('uis-transclude-append', ''); //Adding uisTranscludeAppend directive to row element after choices element has ngRepeat
+
+          transcludeFn(scope, function(clone){
+            rowsInner.append(clone);
+          });
 
           $compile(element, transcludeFn)(scope); //Passing current transcludeFn to be able to append elements correctly from uisTranscludeAppend
 
-          scope.$watch('$select.search', function(newValue) {
-            if(newValue && !$select.open && $select.multiple) $select.activate(false, true);
-            // $select.activeIndex = $select.tagging.isActivated ? -1 : 0;
-            // $select.refresh(attrs.refresh);
-          });
+          // scope.$watch('$select.search', function(newValue) {
+          //   if(newValue && !$select.open && $select.multiple) $select.activate(false, true);
+          //   // $select.activeIndex = $select.tagging.isActivated ? -1 : 0;
+          //   // $select.refresh(attrs.refresh);
+          // });
 
           // attrs.$observe('refreshDelay', function() {
           //   // $eval() is needed otherwise we get a string instead of a number
