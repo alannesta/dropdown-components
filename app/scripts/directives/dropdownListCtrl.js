@@ -29,11 +29,9 @@
     ctrl.placeholder = 'Select';
     ctrl.selected = undefined;
     ctrl.activeIndex = 0;   // index of currently selected model
-
-    ctrl.searchEnabled = false;
-    ctrl.multiple = false;
+    // ctrl.searchEnabled = false;
+    // ctrl.multiple = false;
     ctrl.open = false;
-    ctrl.disabled = undefined; // Initialized inside uiSelect directive link function
 
     var _searchInput = $element.querySelectorAll('input.ui-select-search');
 

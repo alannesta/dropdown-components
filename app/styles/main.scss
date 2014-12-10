@@ -101,25 +101,9 @@ body {
 }
 
 
-
-/* Style when highlighting a search. */
-.ui-select-highlight {
-  font-weight: bold;
-}
-
 /* Bootstrap theme */
 
 /* Fix Bootstrap dropdown position when inside a input-group */
-.input-group > .ui-select-bootstrap.dropdown {
-  /* Instead of relative */
-  position: static;
-}
-
-.input-group > .ui-select-bootstrap > input.ui-select-search.form-control {
-  border-radius: 4px; /* FIXME hardcoded value :-/ */
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
 
 .ui-select-bootstrap > .ui-select-match {
   /* Instead of center because of .btn */
@@ -140,27 +124,6 @@ body {
   overflow-x: hidden;
 }
 
-.ui-select-multiple.ui-select-bootstrap {
-  height: auto;
-  padding: .3em;
-}
-
-.ui-select-multiple.ui-select-bootstrap input.ui-select-search {
-  background-color: transparent !important; /* To prevent double background when disabled */
-  border: none;
-  outline: none;
-  height: 1.666666em;
-}
-
-.ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
-  font-size: 1.6em;
-  line-height: 0.75;
-}
-
-.ui-select-multiple.ui-select-bootstrap .ui-select-match-item{
-  outline: 0;
-}
-
 .ui-select-bootstrap .ui-select-choices-row>a {
     display: block;
     padding: 3px 20px;
@@ -177,27 +140,10 @@ body {
     background-color: #f5f5f5;
 }
 
+/*styling of the active(selected element) */
 .ui-select-bootstrap .ui-select-choices-row.active>a {
     color: #fff;
     text-decoration: none;
     outline: 0;
     background-color: #428bca;
-}
-
-.ui-select-bootstrap .ui-select-choices-row.disabled>a,
-.ui-select-bootstrap .ui-select-choices-row.active.disabled>a {
-    color: #777;
-    cursor: not-allowed;
-    background-color: #fff;
-}
-
-/* fix hide/show angular animation */
-.ui-select-match.ng-hide-add,
-.ui-select-search.ng-hide-add {
-    display: none !important;
-}
-
-/* Mark invalid Bootstrap */
-.ui-select-bootstrap.ng-dirty.ng-invalid > button.btn.ui-select-match {
-    border-color: #D44950;
 }
