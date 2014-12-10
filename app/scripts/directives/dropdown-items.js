@@ -30,15 +30,6 @@
 
           $select.parseRepeatAttr(attrs.repeat, groupByExp); //Result ready at $select.parserResult
 
-          $select.disableChoiceExpression = attrs.uiDisableChoice;
-          $select.onHighlightCallback = attrs.onHighlight;
-
-          if(groupByExp) {
-            var groups = element.querySelectorAll('.ui-select-choices-group');
-            if (groups.length !== 1) throw uiSelectMinErr('rows', "Expected 1 .ui-select-choices-group but got '{0}'.", groups.length);
-            groups.attr('ng-repeat', RepeatParser.getGroupNgRepeatExpression());
-          }
-
           var choices = element.querySelectorAll('.ui-select-choices-row');
           //if (choices.length !== 1) {
           //  throw uiSelectMinErr('rows', "Expected 1 .ui-select-choices-row but got '{0}'.", choices.length);
