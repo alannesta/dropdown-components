@@ -26,14 +26,14 @@
         return function link(scope, element, attrs, $select, transcludeFn) {
           // var repeat = RepeatParser.parse(attrs.repeat);
           var groupByExp = attrs.groupBy;
-
+          if(groupByExp) {
+            var groups = element.querySelectorAll('.ui-select-choices-group');
+            groups.attr('ng-repeat', RepeatParser.getGroupNgRepeatExpression());
+          }
 
           $select.parseRepeatAttr(attrs.repeat, groupByExp); //Result ready at $select.parserResult
 
           var choices = element.querySelectorAll('.acq-dropdown-item-row');
-          //if (choices.length !== 1) {
-          //  throw uiSelectMinErr('rows', "Expected 1 .acq-dropdown-item-row but got '{0}'.", choices.length);
-          //}
 
           choices.attr('ng-repeat', RepeatParser.getNgRepeatExpression($select.parserResult.itemName, '$select.items', $select.parserResult.trackByExp, groupByExp))
             .attr('ng-if', '$select.open') //Prevent unnecessary watches when dropdown is closed
@@ -41,9 +41,6 @@
             .attr('ng-click', '$select.select(' + $select.parserResult.itemName + ',false,$event)');
 
           var rowsInner = element.querySelectorAll('.acq-dropdown-item-row-inner');
-          //if (rowsInner.length !== 1) throw uiSelectMinErr('rows', "Expected 1 .acq-dropdown-item-row-inner but got '{0}'.", rowsInner.length);
-          // rowsInner.attr('uis-transclude-append', ''); //Adding uisTranscludeAppend directive to row element after choices element has ngRepeat
-
           transcludeFn(scope, function(clone){
             rowsInner.append(clone);
           });

@@ -24,13 +24,14 @@
 
   module.controller('dropdownListCtrl', function ($scope, $element, $timeout, $filter, RepeatParser) {
 
-    console.log('dropdownListCtrl init');
+    console.log($scope.$eval('"alan"'));
+    console.log($scope.$eval('alan'));
 
     var ctrl = this;
     ctrl.items = [];
     ctrl.placeholder = 'Select';
     ctrl.selected = undefined;
-    ctrl.disabled = undefined
+    ctrl.disabled = false;
     ctrl.activeIndex = 0;   // index of currently selected model
     // ctrl.searchEnabled = false;
     // ctrl.multiple = false;
@@ -82,7 +83,6 @@
 
       // See https://github.com/angular/angular.js/blob/v1.2.15/src/ng/directive/ngRepeat.js#L259
       $scope.$watchCollection(ctrl.parserResult.source, function (items) {
-
         if (items === undefined || items === null) {
           // If the user specifies undefined or null => reset the collection
           // Special case: items can be undefined if the user did not initialized the collection on the scope
@@ -101,10 +101,17 @@
             } else {
               setItemsFn(items);
             }
+
             ctrl.ngModel.$modelValue = null; //Force scope model value and ngModel value to be out of sync to re-run formatters
           }
         }
       });
+    };
+
+    ctrl.findGroupByName = function(name) {
+      return ctrl.groups && ctrl.groups.filter(function(group) {
+        return group.name === name;
+      })[0];
     };
 
     ctrl.setActiveItem = function (item) {

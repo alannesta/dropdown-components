@@ -64,7 +64,6 @@
           
           return inputValue;
         });
-
         //Set reference to ngModel from dropdownListCtrl
         $select.ngModel = ngModel;
 
