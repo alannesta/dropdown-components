@@ -23,11 +23,14 @@
   };
 
   module.controller('dropdownListCtrl', function ($scope, $element, $timeout, $filter, RepeatParser) {
+
+    console.log('dropdownListCtrl init');
+
     var ctrl = this;
-    
     ctrl.items = [];
     ctrl.placeholder = 'Select';
     ctrl.selected = undefined;
+    ctrl.disabled = undefined
     ctrl.activeIndex = 0;   // index of currently selected model
     // ctrl.searchEnabled = false;
     // ctrl.multiple = false;
@@ -42,6 +45,7 @@
     ctrl.activate = function () {
       if (!ctrl.disabled && !ctrl.open) {
         ctrl.open = true;
+        ctrl.activeIndex = ctrl.activeIndex >= ctrl.items.length ? 0 : ctrl.activeIndex;
       }
     };
 
@@ -114,22 +118,12 @@
       var itemIndex = ctrl.items.indexOf(itemScope[ctrl.itemProperty]);
       var isActive = itemIndex === ctrl.activeIndex;
 
-      if (!isActive || ( itemIndex < 0 && ctrl.taggingLabel !== false ) || ( itemIndex < 0 && ctrl.taggingLabel === false)) {
-        return false;
-      }
-
-      if (isActive && !angular.isUndefined(ctrl.onHighlightCallback)) {
-        itemScope.$eval(ctrl.onHighlightCallback);
-      }
-
       return isActive;
     };
 
 
     // When the user selects an item with ENTER or clicks the dropdown
     ctrl.select = function (item, $event) {
-      var locals = {};
-      locals[ctrl.parserResult.itemName] = item;
       ctrl.selected = item;
       ctrl.close();
       
