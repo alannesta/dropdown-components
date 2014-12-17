@@ -22,13 +22,12 @@
     COMMAND: 91
   };
 
-  module.controller('dropdownListCtrl', function ($scope, $element, $timeout, $filter, RepeatParser) {
+  module.controller('DropdownListCtrl', function ($scope, $element, $timeout, $filter, RepeatParser) {
 
-    console.log($scope.$eval('"alan"'));
-    console.log($scope.$eval('alan'));
-
+    console.log('dropdown controller');
+    console.log($scope);
     var ctrl = this;
-    ctrl.items = [];
+    ctrl.items = $scope.items;
     ctrl.placeholder = 'Select';
     ctrl.selected = undefined;
     ctrl.disabled = false;
@@ -81,30 +80,9 @@
       ctrl.isGrouped = !!groupByExp;
       ctrl.itemProperty = ctrl.parserResult.itemName;
 
-      // See https://github.com/angular/angular.js/blob/v1.2.15/src/ng/directive/ngRepeat.js#L259
-      $scope.$watchCollection(ctrl.parserResult.source, function (items) {
-        if (items === undefined || items === null) {
-          // If the user specifies undefined or null => reset the collection
-          // Special case: items can be undefined if the user did not initialized the collection on the scope
-          // i.e $scope.addresses = [] is missing
-          ctrl.items = [];
-        } else {
-          if (!angular.isArray(items)) {
-            throw "Expected an array but got '{0}'.";
-          } else {
-            if (ctrl.multiple) {
-              //Remove already selected items (ex: while searching)
-              var filteredItems = items.filter(function (i) {
-                return ctrl.selected.indexOf(i) < 0;
-              });
-              setItemsFn(filteredItems);
-            } else {
-              setItemsFn(items);
-            }
-
-            ctrl.ngModel.$modelValue = null; //Force scope model value and ngModel value to be out of sync to re-run formatters
-          }
-        }
+      $scope.$watchCollection('items', function (items) {
+          setItemsFn(items);
+          ctrl.ngModel.$modelValue = null; //Force scope model value and ngModel value to be out of sync to re-run formatters
       });
     };
 

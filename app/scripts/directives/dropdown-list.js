@@ -13,14 +13,19 @@
   module.directive('acqDropdownList', function($document, $compile, $parse) {
     return {
       restrict: 'E',
-      scope: true,
+      scope: {
+        items: '='
+      },
       templateUrl: './scripts/directives/dropdown-list.html',
       require: ['acqDropdownList', 'ngModel'],
       replace: true,
       transclude: true,
-      controller: 'dropdownListCtrl',
+      controller: 'DropdownListCtrl',
       controllerAs: '$select',
       link: function link(scope, element, iAttrs, ctrls, transcludeFn) {
+        console.log(scope);
+        console.log('list link funtion: ');
+        console.log(scope.items);
         // console.log(scope.users);
         /*prototypical inheritance*/
         // scope.users[0] = {budgetshare: 1233.86,publisher: 'Alan', rollover: 831201, adjustment: 434, ebudget: 34234};

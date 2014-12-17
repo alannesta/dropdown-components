@@ -18,7 +18,7 @@
       transclude: true,
       templateUrl: './scripts/directives/dropdown-selected.html',
       link: function(scope, element, attrs, $select) {
-        console.log('dropdown-selected directive link function');
+        // console.log('dropdown-selected directive link function');
       } 
     };
   });
