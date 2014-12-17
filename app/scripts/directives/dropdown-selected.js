@@ -18,7 +18,13 @@
       transclude: true,
       templateUrl: './scripts/directives/dropdown-selected.html',
       link: function(scope, element, attrs, $select) {
-        console.log('dropdown-selected directive link function');
+        scope.$on('$destroy', function(){
+          console.log('dropdown-selected directive scope destroy');
+        });
+
+        element.on('$destroy', function(){
+          console.log('dropdow-selected directive element destroy');
+        });
       } 
     };
   });

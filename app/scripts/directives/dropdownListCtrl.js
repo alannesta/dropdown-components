@@ -24,8 +24,6 @@
 
   module.controller('dropdownListCtrl', function ($scope, $element, $timeout, $filter, RepeatParser) {
 
-    console.log($scope.$eval('"alan"'));
-    console.log($scope.$eval('alan'));
 
     var ctrl = this;
     ctrl.items = [];

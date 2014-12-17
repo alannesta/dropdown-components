@@ -113,8 +113,13 @@
         // See Click everywhere but here event http://stackoverflow.com/questions/12931369
         $document.on('click', onDocumentClick);
 
+        element.on('$destroy', function(){
+          console.log('dropdow-list directive element destroy');
+        });
+
         scope.$on('$destroy', function() {
           $document.off('click', onDocumentClick);
+          console.log('dropdow-list directive scope destroy');
         });
 
         transcludeFn(scope, function(clone) {
@@ -139,6 +144,7 @@
           // //}
           // element.querySelectorAll('.ui-select-choices').replaceWith(transcludedChoices);
         });
+
 
       }
 

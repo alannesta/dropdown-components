@@ -15,10 +15,11 @@ angular.module('angularTestApp').controller('aboutCtrl', ['$interval','$scope',f
     };
 
     $scope.$watch('selection.selected', function(newVal){
-    	console.log('value changed');
-    	console.log(newVal);
     });
 
+    $scope.remove = function(){
+      $('#dropdown').remove();
+    }
     // $scope.$watch('users', function(newVal){
     //   console.log('value changed');
     //   console.log(newVal);
