@@ -19,11 +19,13 @@
       transclude: true,
       templateUrl: './scripts/directives/dropdown-items.html',
       compile: function(tElement, tAttrs) {
+        // debugger;
         if (!tAttrs.repeat){
           throw"Expected 'repeat' expression.";
         }
 
         return function link(scope, element, attrs, $select, transcludeFn) {
+          // debugger;
           // var repeat = RepeatParser.parse(attrs.repeat);
           var groupByExp = attrs.groupBy;
           if(groupByExp) {

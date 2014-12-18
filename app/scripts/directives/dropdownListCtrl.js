@@ -31,7 +31,8 @@
     ctrl.selected = undefined;
     ctrl.disabled = false;
     ctrl.activeIndex = 0;   // index of currently selected model
-    // ctrl.searchEnabled = false;
+    ctrl.searchEnabled = true;
+    ctrl.resetSearchInput = true;
     // ctrl.multiple = false;
     ctrl.open = false;
 
@@ -44,9 +45,24 @@
     ctrl.activate = function () {
       if (!ctrl.disabled && !ctrl.open) {
         ctrl.open = true;
+        resetSearchInput();
         ctrl.activeIndex = ctrl.activeIndex >= ctrl.items.length ? 0 : ctrl.activeIndex;
       }
+      $timeout(function() {
+        _searchInput[0].focus();
+      });
     };
+
+    function resetSearchInput() {
+      // console.log(ctrl.items.length);
+      if (ctrl.resetSearchInput) {
+        ctrl.search = '';
+        //reset activeIndex
+        if (ctrl.selected && ctrl.items.length) {
+          ctrl.activeIndex = ctrl.items.indexOf(ctrl.selected);
+        }
+      }
+    }
 
     ctrl.parseRepeatAttr = function (repeatAttr, groupByExp) {
       function updateGroups(items) {
@@ -81,6 +97,7 @@
 
       // See https://github.com/angular/angular.js/blob/v1.2.15/src/ng/directive/ngRepeat.js#L259
       $scope.$watchCollection(ctrl.parserResult.source, function (items) {
+        // console.log('collection changed');
         if (items === undefined || items === null) {
           // If the user specifies undefined or null => reset the collection
           // Special case: items can be undefined if the user did not initialized the collection on the scope
@@ -113,19 +130,24 @@
     };
 
     ctrl.setActiveItem = function (item) {
+      // debugger;
+      // console.log(ctrl.items.length);
       ctrl.activeIndex = ctrl.items.indexOf(item);
     };
+
 
     ctrl.isActive = function (itemScope) {
       if (!ctrl.open) {
         return false;
       }
+      // debugger;
+      var isActive = false;
       var itemIndex = ctrl.items.indexOf(itemScope[ctrl.itemProperty]);
-      var isActive = itemIndex === ctrl.activeIndex;
-
+      if (itemIndex !== -1){
+        isActive = itemIndex === ctrl.activeIndex;
+      }
       return isActive;
     };
-
 
     // When the user selects an item with ENTER or clicks the dropdown
     ctrl.select = function (item, $event) {
@@ -139,7 +161,11 @@
 
     // Closes the dropdown
     ctrl.close = function (skipFocusser) {
-      if (!ctrl.open) return;
+      if (!ctrl.open){
+        return;
+      }
+      resetSearchInput();
+      ctrl.setActiveItem(ctrl.selected);
       ctrl.open = false;
     };
 

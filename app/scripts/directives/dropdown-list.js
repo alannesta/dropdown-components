@@ -20,7 +20,10 @@
       transclude: true,
       controller: 'dropdownListCtrl',
       controllerAs: '$select',
-      link: function link(scope, element, iAttrs, ctrls, transcludeFn) {
+      compile: function(){
+        // debugger;
+        return function link(scope, element, iAttrs, ctrls, transcludeFn) {
+        // debugger;
         // console.log(scope.users);
         /*prototypical inheritance*/
         // scope.users[0] = {budgetshare: 1233.86,publisher: 'Alan', rollover: 831201, adjustment: 434, ebudget: 34234};
@@ -128,8 +131,9 @@
           // One day jqLite will be replaced by jQuery and we will be able to write:
           // var transcludedElement = clone.filter('.my-class')
           // instead of creating a hackish DOM element:
+          // debugger;
           element.append(clone);
-
+          // debugger;
           // var transcludedMatch = transcluded.querySelectorAll('.ui-select-match');
           // transcludedMatch.removeAttr('ui-select-match'); //To avoid loop in case directive as attr
           // //if (transcludedMatch.length !== 1) {
@@ -144,9 +148,10 @@
           // //}
           // element.querySelectorAll('.ui-select-choices').replaceWith(transcludedChoices);
         });
-
+        // debugger;
 
       }
+    }  
 
     };
   });

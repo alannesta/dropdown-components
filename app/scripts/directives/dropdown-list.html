@@ -1,3 +1,8 @@
 <div class="acq-dropdown-list dropdown" ng-class="{open: $select.open}">
+	<input type="text" autocomplete="off"
+         class="ui-select-search"
+         placeholder="{{$select.placeholder}}"
+         ng-model="$select.search"
+         ng-show="$select.searchEnabled && $select.open">
 </div>
 
