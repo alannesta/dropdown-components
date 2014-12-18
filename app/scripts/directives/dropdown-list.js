@@ -80,7 +80,7 @@
         };
 
         
-        // handle ESC, ENTER key
+        // handle key press
         element.on('keydown', function(e) {
           var key = e.which;
           scope.$apply(function() {
@@ -102,6 +102,7 @@
           });
         });
 
+        // reset hightlight if the current selected item is not in the new filtered list
         element.on('keyup', function(e) {
           var key = e.which;
           if (key!==38 && key!== 40){
@@ -116,7 +117,7 @@
           }
         });
 
-
+        // when move the UP/DOWN, ensure that the dropdown scrolls to keep the current highlighted item in sight
         function ensureHighlightVisible() {
           // debugger;
           var container = angular.element(element[0].querySelectorAll('.acq-dropdown-item'));
