@@ -83,7 +83,6 @@
         // handle ESC, ENTER key
         element.on('keydown', function(e) {
           var key = e.which;
-          console.log(key);
           scope.$apply(function() {
             var processed = false;
             if (!processed && $select.items.length > 0) {
@@ -102,6 +101,21 @@
 
           });
         });
+
+        element.on('keyup', function(e) {
+          var key = e.which;
+          if (key!==38 && key!== 40){
+            scope.$apply(function() {
+              var index = $select.items.indexOf($select.selected);
+              if (index === -1){
+                $select.activeIndex = 0; 
+              }else{
+                $select.activeIndex = index;
+              }
+            });
+          }
+        });
+
 
         function ensureHighlightVisible() {
           // debugger;
