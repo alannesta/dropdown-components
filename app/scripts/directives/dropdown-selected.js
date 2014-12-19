@@ -17,17 +17,17 @@
       replace: true,
       transclude: true,
       templateUrl: './scripts/directives/dropdown-selected.html',
-      link: function(scope, element, attrs, $select) {
-
-        // attrs.$observe('placeholder', function(placeholder) {
-        //   $select.placeholder = placeholder !== undefined ? placeholder : uiSelectConfig.placeholder;
-        // });
-        
-        $select.allowClear = (angular.isDefined(attrs.allowClear)) ? (attrs.allowClear === '') ? true : (attrs.allowClear.toLowerCase() === 'true') : false;
-
-        // if($select.multiple){
-        //   $select.sizeSearchInput();
-        // }
+      compile: function(){
+        // debugger;
+        return function link(scope, element, attrs, $select) {
+          // debugger;
+          scope.$on('$destroy', function(){
+            console.log('dropdown-selected directive scope destroy');
+          });
+          element.on('$destroy', function(){
+            console.log('dropdow-selected directive element destroy');
+          });
+        }
       }
     };
   });

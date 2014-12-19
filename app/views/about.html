@@ -1,11 +1,12 @@
 <!-- <h4>It works!</h4> -->
-<acq-dropdown-list ng-model="selection.selected">
+<acq-dropdown-list ng-model="selection.selected" id = "dropdown" search-threshold = "28">
 	<acq-dropdown-selected>
-		<span ng-bind="$select.selected.publisher"></span>
+		<span ng-bind="$select.selected.publisher"></span>		<!-- automatically transcuded, can get the $select scope from acq-dropdown-list -->
 		<span ng-bind="$select.selected.rollover"></span>
 	</acq-dropdown-selected>
-	<acq-dropdown-items>
+	<acq-dropdown-items group-by="'country'" repeat = "user in users | filter: $select.search | orderBy: 'rollover': true">
 		<span ng-bind="user.publisher"></span>
 		<span ng-bind="user.rollover"></span>
 	</acq-dropdown-items>
 </acq-dropdown-list>
+<button ng-click="remove()">Remove</button>

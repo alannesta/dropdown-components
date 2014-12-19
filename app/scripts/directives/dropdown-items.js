@@ -19,14 +19,54 @@
       transclude: true,
       templateUrl: './scripts/directives/dropdown-items.html',
       compile: function(tElement, tAttrs) {
-        // if (!tAttrs.repeat){
-        //   throw "Expected 'repeat' expression.";
-        // }
+        // debugger;
+        if (!tAttrs.repeat){
+          throw"Expected 'repeat' expression.";
+        }
 
         return function link(scope, element, attrs, $select, transcludeFn) {
-          scope.$watch('$select.search', function(newValue) {
-            if(newValue && !$select.open && $select.multiple) $select.activate(false, true);
+          // debugger;
+          // var repeat = RepeatParser.parse(attrs.repeat);
+          var groupByExp = attrs.groupBy;
+          if(groupByExp) {
+            var groups = element.querySelectorAll('.ui-select-choices-group');
+            groups.attr('ng-repeat', RepeatParser.getGroupNgRepeatExpression());
+          }
+
+          $select.parseRepeatAttr(attrs.repeat, groupByExp); //Result ready at $select.parserResult
+
+          var choices = element.querySelectorAll('.acq-dropdown-item-row');
+
+          choices.attr('ng-repeat', RepeatParser.getNgRepeatExpression($select.parserResult.itemName, '$select.items', $select.parserResult.trackByExp, groupByExp))
+            .attr('ng-if', '$select.open') //Prevent unnecessary watches when dropdown is closed
+            .attr('ng-mouseenter', '$select.setActiveItem('+$select.parserResult.itemName +')')
+            .attr('ng-click', '$select.select(' + $select.parserResult.itemName + ',false,$event)');
+
+          var rowsInner = element.querySelectorAll('.acq-dropdown-item-row-inner');
+          transcludeFn(scope, function(clone){
+            rowsInner.append(clone);
           });
+
+          $compile(element, transcludeFn)(scope); //Passing current transcludeFn to be able to append elements correctly from uisTranscludeAppend
+
+          scope.$on('$destroy', function(){
+            console.log('dropdown-item directive scope destroy');
+          });
+
+          element.on('$destroy', function(){
+            console.log('dropdow-item directive element destroy');
+          });
+          // scope.$watch('$select.search', function(newValue) {
+          //   if(newValue && !$select.open && $select.multiple) $select.activate(false, true);
+          //   // $select.activeIndex = $select.tagging.isActivated ? -1 : 0;
+          //   // $select.refresh(attrs.refresh);
+          // });
+
+          // attrs.$observe('refreshDelay', function() {
+          //   // $eval() is needed otherwise we get a string instead of a number
+          //   var refreshDelay = scope.$eval(attrs.refreshDelay);
+          //   $select.refreshDelay = refreshDelay !== undefined ? refreshDelay : uiSelectConfig.refreshDelay;
+          // });
         };
       }
     };

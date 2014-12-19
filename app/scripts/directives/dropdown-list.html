@@ -1,8 +1,10 @@
-<div class="ui-select-bootstrap dropdown" ng-class="{open: $select.open}">
-	<input type="text" autocomplete="off" tabindex="-1"
-         class="form-control ui-select-search"
+<div class="acq-dropdown-list dropdown" ng-class="{open: $select.open}">
+	<div class="acq-dropdown-selected"></div>	
+	<input type="text" autocomplete="off"
+         class="ui-select-search"
          placeholder="{{$select.placeholder}}"
-         ng-model="$select.selected.publisher"
-         ng-show="$select.searchEnabled && $select.open">
+         ng-model="$select.search"
+         ng-show="$select.searchEnabled && $select.open && $select.exceedThreshold">
+    <div class="acq-dropdown-item"></div>
 </div>
 
