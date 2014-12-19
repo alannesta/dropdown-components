@@ -27,22 +27,40 @@
 
     var ctrl = this;
     ctrl.items = [];
+    ctrl.unfiltered = [];
     ctrl.placeholder = 'Select';
     ctrl.selected = undefined;
     ctrl.disabled = false;
     ctrl.activeIndex = 0;   // index of currently selected model
     ctrl.searchEnabled = true;
     ctrl.resetSearchInput = true;
+    ctrl.searchThreshold = 20;
+    ctrl.exceedThreshold = false;
+
     // ctrl.multiple = false;
     ctrl.open = false;
 
     var _searchInput = $element.querySelectorAll('input.ui-select-search');
+    var threshold = $element.attr('search-threshold') === undefined ? ctrl.searchThreshold : $element.attr('search-threshold');
+    console.log(threshold);
 
     ctrl.isEmpty = function () {
       return angular.isUndefined(ctrl.selected) || ctrl.selected === null || ctrl.selected === '';
     };
 
     ctrl.activate = function () {
+      if(ctrl.items.length === 0){
+        //TODO: show empty list?
+        return;
+      }
+
+      if (ctrl.unfiltered.length === 0){
+        angular.copy(ctrl.items, ctrl.unfiltered);
+
+        if (ctrl.unfiltered.length > threshold){
+          ctrl.exceedThreshold = true;
+        }
+      }
       if (!ctrl.disabled && !ctrl.open) {
         ctrl.open = true;
         resetSearchInput();
