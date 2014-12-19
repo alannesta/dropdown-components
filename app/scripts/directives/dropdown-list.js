@@ -30,6 +30,7 @@
         // scope.users = [];   // shaded, prototypical inheritance
         var $select = ctrls[0];
         var ngModel = ctrls[1];
+
         var searchInput = element.querySelectorAll('input.ui-select-search');
 
         //From view --> model
@@ -79,10 +80,15 @@
           $select.selected = ngModel.$viewValue;
         };
 
+
+        element.on('focus', function(){
+          console.log('focus event on dropdown-list')
+        });
         
         // handle key press
         element.on('keydown', function(e) {
           var key = e.which;
+          console.log('key event on dropdown-list');
           scope.$apply(function() {
             var processed = false;
             if (!processed && $select.items.length > 0) {
@@ -173,21 +179,22 @@
           // var transcludedElement = clone.filter('.my-class')
           // instead of creating a hackish DOM element:
           // debugger;
-          element.append(clone);
-          // debugger;
-          // var transcludedMatch = transcluded.querySelectorAll('.ui-select-match');
+          // element.append(clone);
+          var transcluded = angular.element('<div>').append(clone);
+          var transcludedMatch = transcluded.querySelectorAll('.acq-dropdown-selected');
+          
           // transcludedMatch.removeAttr('ui-select-match'); //To avoid loop in case directive as attr
-          // //if (transcludedMatch.length !== 1) {
-          // //  throw uiSelectMinErr('transcluded', "Expected 1 .ui-select-match but got '{0}'.", transcludedMatch.length);
-          // //}
-          // element.querySelectorAll('.ui-select-match').replaceWith(transcludedMatch);
+          //if (transcludedMatch.length !== 1) {
+          //  throw uiSelectMinErr('transcluded', "Expected 1 .ui-select-match but got '{0}'.", transcludedMatch.length);
+          //}
+          element.querySelectorAll('.acq-dropdown-selected').replaceWith(transcludedMatch);
 
-          // var transcludedChoices = transcluded.querySelectorAll('.ui-select-choices');
+          var transcludedChoices = transcluded.querySelectorAll('.acq-dropdown-item');
           // transcludedChoices.removeAttr('ui-select-choices'); //To avoid loop in case directive as attr
-          // //if (transcludedChoices.length !== 1) {
-          // //  throw uiSelectMinErr('transcluded', "Expected 1 .ui-select-choices but got '{0}'.", transcludedChoices.length);
-          // //}
-          // element.querySelectorAll('.ui-select-choices').replaceWith(transcludedChoices);
+          //if (transcludedChoices.length !== 1) {
+          //  throw uiSelectMinErr('transcluded', "Expected 1 .ui-select-choices but got '{0}'.", transcludedChoices.length);
+          //}
+          element.querySelectorAll('.acq-dropdown-item').replaceWith(transcludedChoices);
         });
         // debugger;
 
