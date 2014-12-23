@@ -39,7 +39,7 @@
 
           choices.attr('ng-repeat', RepeatParser.getNgRepeatExpression($select.parserResult.itemName, '$select.items', $select.parserResult.trackByExp, groupByExp))
             .attr('ng-if', '$select.open') //Prevent unnecessary watches when dropdown is closed
-            .attr('ng-mouseover', '$select.setActiveItem('+$select.parserResult.itemName +')')
+            .attr('ng-mouseenter', '$select.setActiveItem('+$select.parserResult.itemName +')')
             .attr('ng-click', '$select.select(' + $select.parserResult.itemName + ',false,$event)');
 
           var rowsInner = element.querySelectorAll('.acq-dropdown-item-row-inner');
@@ -49,15 +49,13 @@
 
           $compile(element, transcludeFn)(scope); //Passing current transcludeFn to be able to append elements correctly from uisTranscludeAppend
 
-          // not the same element after compile?
-          // element.querySelectorAll('.acq-dropdown-item-row').on('mouseover', function(){
-          //   console.log('choice row mouseenter triggered');
-          // });
+          scope.$on('$destroy', function(){
+            console.log('dropdown-item directive scope destroy');
+          });
 
-          // element.on('mouseover', function(){
-          //   console.log('dropdown-item mouseover triggered');
-          // });
-
+          element.on('$destroy', function(){
+            console.log('dropdow-item directive element destroy');
+          });
           // scope.$watch('$select.search', function(newValue) {
           //   if(newValue && !$select.open && $select.multiple) $select.activate(false, true);
           //   // $select.activeIndex = $select.tagging.isActivated ? -1 : 0;

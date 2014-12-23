@@ -41,8 +41,8 @@
     ctrl.open = false;
 
     var _searchInput = $element.querySelectorAll('input.ui-select-search');
-
     var threshold = $element.attr('search-threshold') === undefined ? ctrl.searchThreshold : $element.attr('search-threshold');
+    console.log(threshold);
 
     ctrl.isEmpty = function () {
       return angular.isUndefined(ctrl.selected) || ctrl.selected === null || ctrl.selected === '';
@@ -72,6 +72,7 @@
     };
 
     function resetSearchInput() {
+      // console.log(ctrl.items.length);
       if (ctrl.resetSearchInput) {
         ctrl.search = '';
         //reset activeIndex
@@ -149,7 +150,6 @@
     ctrl.setActiveItem = function (item) {
       // debugger;
       // console.log(ctrl.items.length);
-      console.log('set active item called');
       ctrl.activeIndex = ctrl.items.indexOf(item);
     };
 
@@ -204,7 +204,7 @@
           break;
         case KEY.UP:
           if (!ctrl.open && ctrl.multiple) ctrl.activate(false, true); //In case its the search input in 'multiple' mode
-          else if (ctrl.activeIndex > 0) { ctrl.activeIndex--; }
+          else if (ctrl.activeIndex > 0 || (ctrl.search.length === 0)) { ctrl.activeIndex--; }
           break;
         case KEY.TAB:
           if (!ctrl.multiple || ctrl.open) ctrl.select(ctrl.items[ctrl.activeIndex], true);

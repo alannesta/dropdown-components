@@ -32,7 +32,6 @@
         var ngModel = ctrls[1];
 
         var searchInput = element.querySelectorAll('input.ui-select-search');
-        var scrollFlag = false;   // marks if the mouseover event is triggered by the ensureHighlightVisible function call. stopPropagation if so
 
         //From view --> model
         ngModel.$parsers.unshift(function (inputValue) {
@@ -81,26 +80,15 @@
           $select.selected = ngModel.$viewValue;
         };
 
-        // element.on('focusin', function(){
-        //   console.log('focusin event on dropdown-list')
-        // });
 
-        // element.on('mouseover', function(){
-        //   console.log('mouseover event bubble mode');
-        // });
-
-        element[0].addEventListener('mouseover', function(e){
-          console.log('mouseover event capture mode');
-          if (scrollFlag){
-            e.preventDefault();
-            e.stopPropagation();
-          }
-          scrollFlag = false;
-        }, true);
+        element.on('focus', function(){
+          console.log('focus event on dropdown-list')
+        });
         
         // handle key press
         element.on('keydown', function(e) {
           var key = e.which;
+          console.log('key event on dropdown-list');
           scope.$apply(function() {
             var processed = false;
             if (!processed && $select.items.length > 0) {
@@ -109,13 +97,14 @@
             if (processed) {
               //TODO Check si el tab selecciona aun correctamente
               //Crear test
-              console.log('processed');
               e.preventDefault();
               e.stopPropagation();
             }
             if((key === 38 || key ===40) && $select.items.length > 0){
               ensureHighlightVisible();
             }
+
+
           });
         });
 
@@ -134,15 +123,15 @@
           }
         });
 
-        // when move UP/DOWN, ensure that the dropdown scrolls to keep the current highlighted item in sight
+        // when move the UP/DOWN, ensure that the dropdown scrolls to keep the current highlighted item in sight
         function ensureHighlightVisible() {
-          scrollFlag = true;
+          // debugger;
           var container = angular.element(element[0].querySelectorAll('.acq-dropdown-item'));
           var choices = angular.element(container[0].querySelectorAll('.acq-dropdown-item-row'));
-          // if (choices.length < 1) {
-          //   throw uiSelectMinErr('choices', "Expected multiple .ui-select-choices-row but got '{0}'.", choices.length);
-          // }
-          // debugger;
+          if (choices.length < 1) {
+            throw uiSelectMinErr('choices', "Expected multiple .ui-select-choices-row but got '{0}'.", choices.length);
+          }
+
           var highlighted = choices[$select.activeIndex];
           var posY = highlighted.offsetTop + highlighted.clientHeight - container[0].scrollTop;
           var height = container[0].offsetHeight;
@@ -175,11 +164,12 @@
         $document.on('click', onDocumentClick);
 
         element.on('$destroy', function(){
-
+          console.log('dropdow-list directive element destroy');
         });
 
         scope.$on('$destroy', function() {
           $document.off('click', onDocumentClick);
+          console.log('dropdow-list directive scope destroy');
         });
 
         transcludeFn(scope, function(clone) {
